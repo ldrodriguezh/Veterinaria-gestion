@@ -6,12 +6,9 @@ import java.util.List;
 
 public interface MascotaService {
     public Mascota registrar(Mascota mascota);
+    public Mascota actualizar(Mascota mascota, Long id);
+    public boolean eliminar(Long id);
 
-    public Mascota actualizar(Mascota mascota, Integer id);
-
-    public boolean eliminar(Integer id);
-
-    public Mascota obtenerPorId(Integer id);
-
-    public List<Mascota> listar();
+    public Mascota obtenerPorId(Long id);
+    public List<Mascota> listarTodo();
 }

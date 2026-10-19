@@ -9,40 +9,47 @@ import java.util.List;
 @Service
 public class MascotaServiceImpl implements MascotaService {
 
-    private final MascotaRepository mascotaRepository;
+    private  MascotaRepository mascotaRepository;
 
     public MascotaServiceImpl(MascotaRepository mascotaRepository) {
+
         this.mascotaRepository = mascotaRepository;
     }
 
     @Override
     public Mascota registrar(Mascota mascota) {
-        try{
-           mascota= mascotaRepository.save(mascota);
-        }catch(UnsupportedOperationException e){
-            throw new UnsupportedOperationException("No se pudo registrar la mascota");
+        return mascotaRepository.save(mascota);
+    }
+
+    @Override
+    public Mascota actualizar(Mascota mascota, Long id) {
+        Mascota mascota1 = obtenerPorId(id);
+        mascota1.setNombre(mascota.getNombre());
+        mascota1.setEspecie(mascota.getEspecie());
+        mascota1.setTelefonoPropietario(mascota.getTelefonoPropietario());
+        mascota1.setNombrePropietario(mascota.getNombrePropietario());
+
+        return mascotaRepository.save(mascota1);
+    }
+
+    @Override
+    public boolean eliminar(Long id) {
+        Mascota mascota1 = obtenerPorId(id);
+        if(mascota1 != null){
+            mascotaRepository.delete(mascota1);
+            return true;
         }
-
-        return mascota;
-    }
-
-    @Override
-    public Mascota actualizar(Mascota mascota, Integer id) {
-        return null;
-    }
-
-    @Override
-    public boolean eliminar(Integer id) {
         return false;
     }
 
     @Override
-    public Mascota obtenerPorId(Integer id) {
-        return null;
+    public Mascota obtenerPorId(Long id) {
+        return mascotaRepository.findById(id).get();
+
     }
 
     @Override
-    public List<Mascota> listar() {
-        return List.of();
+    public List<Mascota> listarTodo() {
+        return mascotaRepository.findAll();
     }
 }
