@@ -14,8 +14,10 @@ public class Mascota {
     private String nombrePropietario;
     private String telefonoPropietario;
 
+
     @OneToMany(mappedBy = "mascota")
     private List<Cita> citas = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -55,5 +57,12 @@ public class Mascota {
 
     public void setTelefonoPropietario(String telefonoPropietario) {
         this.telefonoPropietario = telefonoPropietario;
+    }
+
+    public void setCitas(List citas) {
+    }
+
+    public  List<Cita> getCitas() {
+        return citas;
     }
 }

@@ -1,5 +1,7 @@
 package co.edu.ucompensar.veterinaria;
 
+import co.edu.ucompensar.veterinaria.Exception.ValidacionException;
+import co.edu.ucompensar.veterinaria.model.Cita;
 import co.edu.ucompensar.veterinaria.model.Mascota;
 import co.edu.ucompensar.veterinaria.repository.MascotaRepository;
 import co.edu.ucompensar.veterinaria.service.MascotaServiceImpl;
@@ -9,12 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MascotaServiceImplTest {
@@ -49,6 +52,19 @@ public class MascotaServiceImplTest {
     }
 
     @Test
+    void registrar_mascota_nombre_vacio() {
+        Mascota mascota = new Mascota();
+
+        mascota.setEspecie("Dalmata");
+        mascota.setNombrePropietario("Jhon");
+        mascota.setTelefonoPropietario("3051234567");
+
+
+        assertThrows(ValidacionException.class, () -> mascotaService.registrar(mascota));
+        verify(mascotaRepository, never()).save(any());
+    }
+
+    @Test
     void actualizar_mascota() {
         Mascota mascotaBD = crearMascota();
         mascotaBD.setId(22L);
@@ -63,5 +79,21 @@ public class MascotaServiceImplTest {
 
         assertEquals("Pecueca", mascotaActualizada.getNombre());
         verify(mascotaRepository).save(mascotaBD);
+    }
+
+    @Test
+    void consultar_mascotaExistente_devuelveMascotaConCitas() {
+        // Arrange
+        Mascota mascota = crearMascota();
+        mascota.setId(1L);
+        mascota.setCitas(List.of(new Cita()));
+        when(mascotaRepository.findById(1L)).thenReturn(Optional.of(mascota));
+
+        // Act
+        Mascota resultado = mascotaService.obtenerPorId(1L);
+
+        // Assert
+        assertSame(mascota, resultado);
+        assertEquals(1, resultado.getCitas().size());
     }
 }
