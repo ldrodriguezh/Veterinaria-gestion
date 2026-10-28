@@ -18,10 +18,10 @@ public class MascotaServiceImpl implements MascotaService {
 
     @Override
     public Mascota registrar(Mascota mascota) {
-        if (mascota.getNombre() = null || mascota.getNombre().isBlank()){
+        if (mascota.getNombre() == null || mascota.getNombre().isBlank()){
             throw new ValidacionException("El nombre es obligatorio");
         }
-        if(mascota.getEspecie() = null || mascota.getEspecie().isBlank()) {
+        if(mascota.getEspecie() == null || mascota.getEspecie().isBlank()) {
             throw new ValidacionException("La especie es obligatoria");
         }
 
