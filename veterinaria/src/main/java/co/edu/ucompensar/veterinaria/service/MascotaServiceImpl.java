@@ -3,6 +3,7 @@ package co.edu.ucompensar.veterinaria.service;
 import co.edu.ucompensar.veterinaria.model.Mascota;
 import co.edu.ucompensar.veterinaria.repository.MascotaRepository;
 import org.springframework.stereotype.Service;
+import co.edu.ucompensar.veterinaria.Exception.RecursoNoEncontradoException;
 import co.edu.ucompensar.veterinaria.Exception.ValidacionException;
 import java.util.List;
 
@@ -51,8 +52,21 @@ public class MascotaServiceImpl implements MascotaService {
 
     @Override
     public Mascota obtenerPorId(Long id) {
-        return mascotaRepository.findById(id).get();
+        return mascotaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Mascota no existe: " + id));
+    }
 
+    @Override
+    public Mascota consultar(Long id) {
+        return obtenerPorId(id);
+    }
+
+    @Override
+    public Mascota actualizarPropietario(Long id, String nombrePropietario, String telefonoPropietario) {
+        Mascota mascota = obtenerPorId(id);
+        mascota.setNombrePropietario(nombrePropietario);
+        mascota.setTelefonoPropietario(telefonoPropietario);
+        return mascotaRepository.save(mascota);
     }
 
     @Override

@@ -10,5 +10,7 @@ public interface MascotaService {
     public boolean eliminar(Long id);
 
     public Mascota obtenerPorId(Long id);
+    public Mascota consultar(Long id);
+    public Mascota actualizarPropietario(Long id, String nombrePropietario, String telefonoPropietario);
     public List<Mascota> listarTodo();
 }
