@@ -95,7 +95,7 @@ class MascotaServiceImplTest {
         luna.setCitas(List.of(new Cita(), new Cita()));
         when(mascotaRepository.findById(1L)).thenReturn(Optional.of(luna));
 
-        Mascota resultado = mascotaService.consultar(1L);
+        Mascota resultado = mascotaService.obtenerPorId(1L);
 
         assertSame(luna, resultado);
         assertEquals(2, resultado.getCitas().size());
@@ -107,7 +107,7 @@ class MascotaServiceImplTest {
         when(mascotaRepository.findById(99L)).thenReturn(Optional.empty());
 
         RecursoNoEncontradoException e = assertThrows(RecursoNoEncontradoException.class,
-                () -> mascotaService.consultar(99L));
+                () -> mascotaService.obtenerPorId(99L));
         assertNotNull(e.getMessage());
     }
 

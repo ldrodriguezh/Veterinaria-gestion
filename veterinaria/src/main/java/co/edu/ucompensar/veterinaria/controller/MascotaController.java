@@ -40,7 +40,7 @@ public class MascotaController {
     /** RF-02. 200 con la mascota y su lista de citas; 404 si no existe. */
     @GetMapping("/{id}")
     public ResponseEntity<Mascota> consultar(@PathVariable Long id) {
-        return ResponseEntity.ok(mascotaService.consultar(id));
+        return ResponseEntity.ok(mascotaService.obtenerPorId(id));
     }
 
     /** RF-05. 200 con la mascota actualizada; 404 si no existe. */

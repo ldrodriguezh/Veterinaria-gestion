@@ -103,7 +103,7 @@ class MascotaControllerTest {
         cita.setEstado("PENDIENTE");
         cita.setMascota(luna);              // referencia circular a propósito
         luna.setCitas(List.of(cita));
-        when(mascotaService.consultar(1L)).thenReturn(luna);
+        when(mascotaService.obtenerPorId(1L)).thenReturn(luna);
 
         // Si la entidad no corta el ciclo Mascota -> Cita -> Mascota,
         // esta prueba falla por recursión infinita al serializar.
@@ -118,7 +118,7 @@ class MascotaControllerTest {
     @Test
     @DisplayName("GET /api/mascotas/{id} inexistente -> 404")
     void consultar_inexistente_devuelve404() throws Exception {
-        when(mascotaService.consultar(99L))
+        when(mascotaService.obtenerPorId(99L))
                 .thenThrow(new RecursoNoEncontradoException("Mascota no existe: 99"));
 
         mockMvc.perform(get("/api/mascotas/99"))

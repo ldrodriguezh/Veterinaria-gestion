@@ -56,10 +56,6 @@ public class MascotaServiceImpl implements MascotaService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("Mascota no existe: " + id));
     }
 
-    @Override
-    public Mascota consultar(Long id) {
-        return obtenerPorId(id);
-    }
 
     @Override
     public Mascota actualizarPropietario(Long id, String nombrePropietario, String telefonoPropietario) {
